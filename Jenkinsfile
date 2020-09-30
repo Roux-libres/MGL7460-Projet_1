@@ -5,13 +5,12 @@ pipeline {
             steps {
                 echo 'Building..'
                 withAnt(installation: 'ant') {
-				    dir("scoring") {
-				    if (isUnix()) {
-				      sh "ant ci"
-				    } else {
-				      bat "ant ci"
-				    }
-				}
+                    if (isUnix()) {
+                      sh "ant ci"
+                    } else {
+                      bat "ant ci"
+                    }
+                }
             }
         }
         stage('Test') {
