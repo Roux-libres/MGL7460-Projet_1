@@ -7,9 +7,9 @@ pipeline {
                 script {
                     withAnt(installation: 'ant') {
                         if (isUnix()) {
-                        sh "ant ci"
+                        sh "ant all-ci"
                         } else {
-                        bat "ant ci"
+                        bat "ant all-ci"
                         }
                     }
                 }
