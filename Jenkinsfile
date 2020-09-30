@@ -4,11 +4,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                withAnt(installation: 'ant') {
-                    if (isUnix()) {
-                      sh "ant ci"
-                    } else {
-                      bat "ant ci"
+                script {
+                    withAnt(installation: 'ant') {
+                        if (isUnix()) {
+                        sh "ant ci"
+                        } else {
+                        bat "ant ci"
+                        }
                     }
                 }
             }
