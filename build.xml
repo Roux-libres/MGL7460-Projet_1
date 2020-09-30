@@ -13,6 +13,13 @@
     </path>
     <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="./ant_lib/checkstyle-8.36.2-all.jar"/>
     <taskdef resource="edu/umd/cs/findbugs/anttask/tasks.properties" classpath="./ant_lib/spotbugs-ant.jar"/>
+  	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
+  	    <classpath>
+  	        <fileset dir="./ant_lib/pmd_lib">
+  	            <include name="*.jar"/>
+  	        </fileset>
+  	    </classpath>
+  	</taskdef>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
