@@ -3,11 +3,19 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="MGL7460-Projet_1">
+              as the first entry and export the buildfile again. -->
+	<project basedir="." default="all" name="MGL7460-Projet_1" xmlns:sonar="antlib:org.sonar.ant">
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="14"/>
     <property name="source" value="14"/>
+    <property name="sonar.host.url" value="http://ptitcaillou.tk:9000"/>
+  	<property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant" />
+  	<property name="sonar.projectName" value="SonarScanner for Project n°1" />
+  	<property name="sonar.projectVersion" value="1.0" />
+  	<property name="sonar.sources" value="src" />
+  	<property name="sonar.java.binaries" value="./src" />
+  	<property name="sonar.java.libraries" value="./ant_lib/sonarqube-ant-task-2.7.0.1612.jar" />
     <path id="MGL7460-Projet_1.classpath">
         <pathelement location="bin"/>
     </path>
@@ -20,6 +28,14 @@
   	        </fileset>
   	    </classpath>
   	</taskdef>
+  	<target name="sonar">
+  	    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+  	        <classpath path="./ant_lib/sonarqube-ant-task-2.7.0.1612.jar" />
+  	    </taskdef>
+  	 
+  	    <!-- Execute SonarScanner for Ant Analysis -->
+  	    <sonar:sonar />
+  	</target>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
@@ -55,4 +71,5 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
+	<target name="all" depends="clean,build,sonar" />
 </project>
