@@ -72,4 +72,6 @@
         <antcall target="build"/>
     </target>
 	<target name="all" depends="clean,build,sonar" />
+		
+	<target name="all-ci" depends="" />
 </project>
