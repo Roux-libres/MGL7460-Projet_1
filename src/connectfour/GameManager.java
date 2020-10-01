@@ -1,4 +1,4 @@
-package Projet_1;
+package connectfour;
 
 public class GameManager {
 	private int defaultPlayersAmount = 2;

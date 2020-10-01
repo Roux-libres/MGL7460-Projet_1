@@ -7,8 +7,8 @@
 	<project basedir="." default="all" name="MGL7460-Projet_1" xmlns:sonar="antlib:org.sonar.ant">
     <property environment="env"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="14"/>
-    <property name="source" value="14"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
     <property name="sonar.host.url" value="http://ptitcaillou.tk:9000"/>
   	<property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant" />
   	<property name="sonar.projectName" value="SonarScanner for Project n°1" />
@@ -19,7 +19,7 @@
     <path id="MGL7460-Projet_1.classpath">
         <pathelement location="bin"/>
     </path>
-    <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="./ant_lib/checkstyle-8.36.2-all.jar"/>
+    <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="./ant_lib/checkstyle/checkstyle-8.36.2-all.jar"/>
     <taskdef resource="edu/umd/cs/findbugs/anttask/tasks.properties" classpath="./ant_lib/spotbugs-ant.jar"/>
   	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
   	    <classpath>
@@ -38,6 +38,7 @@
   	</target>
     <target name="init">
         <mkdir dir="bin"/>
+        <mkdir dir="target"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
@@ -46,6 +47,7 @@
     </target>
     <target name="clean">
         <delete dir="bin"/>
+        <delete dir="target"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
@@ -74,4 +76,13 @@
 	<target name="all" depends="clean,build,sonar" />
 		
 	<target name="all-ci" depends="" />
+		
+	
+	
+	<target name="checkstyle">
+		<checkstyle config="./ant_lib/checkstyle/google_checks.xml">
+			<fileset dir="src/connectfour" includes="**/*.java"/>
+			<property key="checkstyle.cache.file" file="target/cachefile"/>
+		</checkstyle>
+	</target>
 </project>
