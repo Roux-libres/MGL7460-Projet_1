@@ -115,7 +115,90 @@
 	<target name="spotbugs" depends="jar">
 		<spotbugs 	home="${spotbugs.home}"
 					output="xml"
-					outputfile="./build/logs/spotbugs.xml"
+					outputfile="./build/logs/spotbugs_report.xml"
+		>
+		<class location="./bin/ConnectFour.jar"/>
+		<sourcepath path="./src/connectfour"/>
+		</spotbugs>
+	</target>
+		
+  	<target name="sonar-ci">
+  	    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+  	        <classpath path="./ant_lib/sonarqube-ant-task-2.7.0.1612.jar" />
+  	    </taskdef>
+  	    <sonar:sonar />
+  	</target>
+		
+    <target name="init-ci">
+        <mkdir dir="bin"/>
+    	<mkdir dir="build/logs"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+		
+    <target name="clean-ci">
+        <delete dir="bin"/>
+    	<delete dir="build"/>
+    	<delete>
+    		<fileset dir="./build" includes="*.xml" />
+    	</delete>
+    </target>
+		
+    <target name="build-ci" depends="init">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="MGL7460-Projet_1.classpath"/>
+        </javac>
+    </target>
+		
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects-ci"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler-ci">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+		
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler-ci">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+		
+	<target name="pmd-ci">
+		<pmd rulesetfiles="./ant_lib/pmd/quickstart.xml" shortFilenames="true">
+		 	<formatter type="xml" toFile="./build/logs/pmd_report.xml"/>
+	        <fileset dir="src" includes="**/*.java"/>
+		</pmd>
+	</target>
+	
+	<target name="checkstyle-ci">
+		<checkstyle config="./ant_lib/checkstyle/google_checks.xml">
+			<fileset dir="src" includes="**/*.java"/>
+			<formatter type="xml" toFile="./build/logs/checkstyle_report.xml"/>
+		</checkstyle>
+	</target>
+		
+	<target name="jar-ci" depends="build">
+		<jar destfile="./bin/ConnectFour.jar" filesetmanifest="mergewithoutmain">
+		 	<manifest>
+		 		<attribute name="Main-Class" value="connectfour.App"/>
+		 		<attribute name="Class-Path" value="."/>
+		  	</manifest>
+		  	<fileset dir="./bin"/>
+  		</jar>
+	</target>
+		
+	<target name="spotbugs-ci" depends="jar">
+		<spotbugs 	home="${spotbugs.home}"
+					output="xml"
+					outputfile="./build/logs/spotbugs_report.xml"
 		>
 		<class location="./bin/ConnectFour.jar"/>
 		<sourcepath path="./src/connectfour"/>
@@ -124,5 +207,5 @@
 		
 	<target name="all" depends="clean, init, build, sonar, checkstyle, pmd, spotbugs" />
 				
-	<target name="all-ci" depends="" />
+	<target name="all-ci" depends="clean-ci, init-ci, build-ci, sonar-ci, checkstyle-ci, pmd-ci, spotbugs-ci" />
 </project>
