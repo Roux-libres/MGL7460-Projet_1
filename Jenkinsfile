@@ -26,4 +26,12 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            junit testResults: '**/target/surefire-reports/TEST-*.xml'
+            recordIssues enabledForFailure: true, tool: checkStyle(pattern: './build/logs/checkstyle.xml')
+            recordIssues enabledForFailure: true, tool: spotBugs(pattern: './build/logs/spotbugs.xml')
+            recordIssues enabledForFailure: true, tool: pmdParser(pattern: './build/logs/pmd.xml')
+        }
+    }
 }
