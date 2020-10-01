@@ -32,13 +32,10 @@
   	    <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
   	        <classpath path="./ant_lib/sonarqube-ant-task-2.7.0.1612.jar" />
   	    </taskdef>
-  	 
-  	    <!-- Execute SonarScanner for Ant Analysis -->
   	    <sonar:sonar />
   	</target>
     <target name="init">
         <mkdir dir="bin"/>
-        <mkdir dir="target"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
@@ -46,8 +43,16 @@
         </copy>
     </target>
     <target name="clean">
+    	<tstamp>
+			<format property="TODAY_DATE" pattern="yyyyMMdd-HHmmss"  locale="fr,FR" />
+		</tstamp>
+    	<zip destfile="./build/archives/${TODAY_DATE}.zip">
+    		<fileset dir="./build" includes="*.xml" />
+    	</zip>
         <delete dir="bin"/>
-        <delete dir="target"/>
+    	<delete>
+    		<fileset dir="./build" includes="*.xml" />
+    	</delete>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
@@ -73,21 +78,21 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-	<target name="all" depends="clean,build,sonar" />
+	<target name="all" depends="clean,build,sonar,checkstyle,pmd" />
 		
 	<target name="all-ci" depends="" />
 		
 	<target name="pmd">
 		<pmd rulesetfiles="./ant_lib/pmd/quickstart.xml" shortFilenames="true">
-		 	<formatter type="xml" toFile="pmd_report.xml" toConsole="true"/>
+		 	<formatter type="xml" toFile="./build/pmd_report.xml"/>
 	        <fileset dir="src" includes="**/*.java"/>
 		</pmd>
 	</target>
 	
 	<target name="checkstyle">
 		<checkstyle config="./ant_lib/checkstyle/google_checks.xml">
-			<fileset dir="src/connectfour" includes="**/*.java"/>
-			<property key="checkstyle.cache.file" file="target/cachefile"/>
+			<fileset dir="src" includes="**/*.java"/>
+			<formatter type="xml" toFile="./build/checkstyle_report.xml"/>
 		</checkstyle>
 	</target>
 </project>
