@@ -23,7 +23,7 @@
     <taskdef resource="edu/umd/cs/findbugs/anttask/tasks.properties" classpath="./ant_lib/spotbugs-ant.jar"/>
   	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
   	    <classpath>
-  	        <fileset dir="./ant_lib/pmd_lib">
+  	        <fileset dir="./ant_lib/pmd/pmd_lib">
   	            <include name="*.jar"/>
   	        </fileset>
   	    </classpath>
@@ -77,7 +77,12 @@
 		
 	<target name="all-ci" depends="" />
 		
-	
+	<target name="pmd">
+		<pmd rulesetfiles="./ant_lib/pmd/quickstart.xml" shortFilenames="true">
+		 	<formatter type="xml" toFile="pmd_report.xml" toConsole="true"/>
+	        <fileset dir="src" includes="**/*.java"/>
+		</pmd>
+	</target>
 	
 	<target name="checkstyle">
 		<checkstyle config="./ant_lib/checkstyle/google_checks.xml">
