@@ -1,16 +1,11 @@
 package connectfour;
 
 public class Column {
-	private Tile[] column;
-	private int columnSize;
+	private Tile[] tiles;
 	private int indexEmptyTile;
 	
 	public Column(int size) {
 		//TODO
-	}
-	
-	public int getSize() {
-		return this.columnSize;
 	}
 	
 	public int getIndexEmptyTile() {
@@ -18,11 +13,15 @@ public class Column {
 	}
 	
 	public Tile getTile(int index) {
-		return this.column[index];
+		return this.tiles[index];
 	}
 	
-	public void addToken(Token token) {
-		this.column[this.getIndexEmptyTile()].setToken(token);
+	public void addToken(Player player) {
+		//TODO
+	}
+	
+	private void incrementIndexEmptyTile() {
+		this.indexEmptyTile += 1;
 	}
 	
 	public boolean isFull() {
