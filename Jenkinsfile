@@ -19,8 +19,8 @@ pipeline {
     post {
         always {
             recordIssues(
-                enabledForFailure: true, aggregatingResults: true, 
-                tools: [checkStyle(pattern: '/build/logs/checkstyle_report.xml'), spotBugs(pattern: '/build/logs/spotbugs_report.xml'), pmdParser(pattern: '/build/logs/pmd_report.xml')]
+                enabledForFailure: true, aggregatingResults: false, 
+                tools: [checkStyle(pattern: 'build/logs/checkstyle_report.xml'), spotBugs(pattern: 'build/logs/spotbugs_report.xml'), pmdParser(pattern: 'build/logs/pmd_report.xml')]
             )
         }
     }
