@@ -15,16 +15,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
     }
     post {
         always {
