@@ -142,9 +142,6 @@
     <target name="clean-ci">
         <delete dir="bin"/>
     	<delete dir="build"/>
-    	<delete>
-    		<fileset dir="./build" includes="*.xml" />
-    	</delete>
     </target>
 		
     <target name="build-ci" depends="init">
