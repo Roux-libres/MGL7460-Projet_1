@@ -1,79 +1,74 @@
 package connectfour;
 
 public class GameManager {
-	private int defaultPlayersAmount = 2;
-	private int defaultWinCondition = 4;
-	private int defaultGamesAmount = 1;
-	private int playerAmount;
-	private int winCondition;
-	private int gamesAmount;
-	private int remainingGamesAmount;
+	final int DEFAULT_ALIGNED_TOKEN = 4;
+	final int DEFAULT_COLUMN_AMOUNT = 7;
+	final int DEFAULT_ROW_AMOUNT = 6;
+	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+	private int alignedToken;
 	private Player[] players;
-	private int actualPlayerIndex;
-	private Player actualPlayer;
+	private int turnCount;
 	private Grid grid;
 	
 	public GameManager() {
 		//TODO
 	}
 	
-	public int getPlayerAmount() {
-		return this.playerAmount;
+	public void initGame() {
+		//TODO
+	}
+	
+	public int getAlignedToken() {
+		return alignedToken;
 	}
 
-	public void setPlayerAmount(int playerAmount) {
-		this.playerAmount = playerAmount;
+	public void setAlignedToken(int alignedToken) {
+		this.alignedToken = alignedToken;
 	}
 
-	public int getWinCondition() {
-		return this.winCondition;
+	public void setGrid(int width, int height) {
+		this.grid = new Grid(width, height);
 	}
-
-	public void setWinCondition(int winCondition) {
-		this.winCondition = winCondition;
+	
+	public void setPlayers() {
+		//TODO
 	}
-
-	public int getGamesAmount() {
-		return this.gamesAmount;
+	
+	private void createPlayer(String username, char symbol) {
+		//TODO
 	}
-
-	public void setGamesAmount(int gamesAmount) {
-		this.gamesAmount = gamesAmount;
+	
+	public void playGame() {
+		//TODO
 	}
-
+	
+	public int getTurnCount() {
+		return this.turnCount;
+	}
+	
+	private void incrementTurnCount() {
+		this.turnCount += 1;
+	}
+	
 	public Grid getGrid() {
 		return this.grid;
 	}
-
-	public void setGrid(int columnAmount, int rowAmount) {
-		this.grid = new Grid(columnAmount, rowAmount);
-	}
-
-	public int getRemainingGamesAmount() {
-		return this.remainingGamesAmount;
-	}
-
-	public int getActualPlayerIndex() {
-		return this.actualPlayerIndex;
-	}
-
-	public void setActualPlayer(int playerIndex) {
-		this.actualPlayer = this.getPlayer(playerIndex);
-	}
-
-	public int getGameNumber() {
-		return this.gamesAmount - this.remainingGamesAmount + 1;
-	}
-	
-	public String getActualPlayerName() {
-		return this.getPlayer(this.getActualPlayerIndex()).getName();
-	}
-	
-	public char getActualPlayerSymbol() {
-		return this.getPlayer(this.getActualPlayerIndex()).getSymbol();
-	}
 	
 	public Player getPlayer(int index) {
-		return this.players[index];
+		//TODO
+		return null;
+	}
+	
+	public boolean hasWon(Player player) {
+		//TODO
+		return false;
+	}
+	
+	public void displayGrid() {
+		
+	}
+	
+	public void displayVictory() {
+		
 	}
 }

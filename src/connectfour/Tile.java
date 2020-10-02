@@ -3,12 +3,16 @@ package connectfour;
 public class Tile {
 	private Token token;
 
+	public Tile() {
+		//TODO
+	}
+	
 	public Token getToken() {
 		return token;
 	}
 
-	public void setToken(Token token) {
-		this.token = token;
+	public void setToken(Player player) {
+		this.token = new Token(player);
 	}
 	
 	public boolean isEmpty() {
@@ -16,14 +20,6 @@ public class Tile {
 			return false;
 		} else {
 			return true;
-		}
-	}
-	
-	public String toString() {
-		if(!this.isEmpty()) {
-			return "" + this.getToken().getSymbol();
-		} else {
-			return "";
 		}
 	}
 }
