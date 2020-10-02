@@ -21,6 +21,12 @@
 	<path id="MGL7460-Projet_1.classpath">
         <pathelement location="bin"/>
     </path>
+		
+	<path id="test.classpath">
+	    <pathelement path="bin/test"/>
+	    <pathelement path="bin/connectfour"/>
+		<fileset dir="ant_lib/junit"/>
+    </path>
 
     <taskdef resource="com/puppycrawl/tools/checkstyle/ant/checkstyle-ant-task.properties" classpath="./ant_lib/checkstyle/checkstyle-8.36.2-all.jar"/>
     <taskdef resource="edu/umd/cs/findbugs/anttask/tasks.properties" classpath="./ant_lib/spotbugs-ant.jar"/>
@@ -41,7 +47,7 @@
 		
     <target name="init">
         <mkdir dir="bin"/>
-    	<mkdir dir="build/logs"/>
+    	<mkdir dir="build/logs/test_report"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
@@ -66,10 +72,8 @@
 		
     <target name="build" depends="init">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="MGL7460-Projet_1.classpath"/>
-        </javac>
+  	  	<javac destdir="bin" srcdir="src/connectfour" includeantruntime="false"/>
+    	<javac destdir="bin" classpathref="test.classpath" srcdir="src/test" includeantruntime="false"/>
     </target>
 		
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -120,6 +124,32 @@
 		<class location="./bin/ConnectFour.jar"/>
 		<sourcepath path="./src/connectfour"/>
 		</spotbugs>
+	</target>
+		
+	<target name="junit" depends="build">
+		<!--junitlauncher haltOnFailure="true" printSummary="true">
+			<classpath refid="test.classpath"/>
+			<testclasses outputdir="build/logs/test-report">
+                <fileset dir="bin/test">
+                    <include name="**/*Test.class"/>
+                </fileset>
+                <listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>
+                <listener type="legacy-plain" sendSysOut="true" />
+            </testclasses>
+		</junitlauncher-->
+		
+		<junit haltOnFailure="false" printSummary="true">
+			<classpath refid="test.classpath"/>
+			
+			<formatter type="xml"/>
+		    <formatter type="plain"/>
+
+		    <batchtest fork="yes" todir="build/logs/test_report">
+		        <fileset dir="src/test">
+                    <include name="*Test.java"/>
+		        </fileset>
+		    </batchtest>
+		</junit>
 	</target>
 		
   	<target name="sonar-ci">
@@ -202,7 +232,8 @@
 		</spotbugs>
 	</target>
 		
-	<target name="all" depends="clean, init, build, sonar, checkstyle, pmd, spotbugs" />
+	<!--<target name="all" depends="clean, init, build, sonar, checkstyle, pmd, spotbugs, junit" /-->
+	<target name="all" depends="clean, init, build, junit" />
 				
 	<target name="all-ci" depends="clean-ci, init-ci, build-ci, sonar-ci, checkstyle-ci, pmd-ci, spotbugs-ci" />
 </project>
