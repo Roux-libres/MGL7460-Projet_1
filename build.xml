@@ -25,6 +25,7 @@
 	<path id="test.classpath">
 	    <pathelement path="bin/test"/>
 	    <pathelement path="bin/connectfour"/>
+		<pathelement path="${ant.home}/lib/ant-junitlauncher.jar"/>
 		<fileset dir="ant_lib/junit"/>
     </path>
 
@@ -127,29 +128,16 @@
 	</target>
 		
 	<target name="junit" depends="build">
-		<!--junitlauncher haltOnFailure="true" printSummary="true">
+		<junitlauncher haltOnFailure="true" printSummary="true">
 			<classpath refid="test.classpath"/>
-			<testclasses outputdir="build/logs/test-report">
+			<testclasses outputdir="build/logs/test_report">
                 <fileset dir="bin/test">
                     <include name="**/*Test.class"/>
                 </fileset>
                 <listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>
                 <listener type="legacy-plain" sendSysOut="true" />
             </testclasses>
-		</junitlauncher-->
-		
-		<junit haltOnFailure="false" printSummary="true">
-			<classpath refid="test.classpath"/>
-			
-			<formatter type="xml"/>
-		    <formatter type="plain"/>
-
-		    <batchtest fork="yes" todir="build/logs/test_report">
-		        <fileset dir="src/test">
-                    <include name="*Test.java"/>
-		        </fileset>
-		    </batchtest>
-		</junit>
+		</junitlauncher>
 	</target>
 		
   	<target name="sonar-ci">
@@ -232,8 +220,7 @@
 		</spotbugs>
 	</target>
 		
-	<!--<target name="all" depends="clean, init, build, sonar, checkstyle, pmd, spotbugs, junit" /-->
-	<target name="all" depends="clean, init, build, junit" />
+	<target name="all" depends="clean, init, build, sonar, checkstyle, pmd, spotbugs, junit" />
 				
 	<target name="all-ci" depends="clean-ci, init-ci, build-ci, sonar-ci, checkstyle-ci, pmd-ci, spotbugs-ci" />
 </project>
