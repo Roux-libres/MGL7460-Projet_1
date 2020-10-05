@@ -71,7 +71,7 @@
     	</delete>
     </target>
 		
-    <target name="build" depends="init">
+    <target name="compile" depends="init">
         <echo message="${ant.project.name}: ${ant.file}"/>
   	  	<javac destdir="bin" srcdir="src/connectfour" includeantruntime="false"/>
     	<javac destdir="bin" classpathref="test.classpath" srcdir="src/test" includeantruntime="false"/>
@@ -107,7 +107,7 @@
 		</checkstyle>
 	</target>
 		
-	<target name="jar" depends="build">
+	<target name="jar" depends="compile">
 		<jar destfile="./bin/ConnectFour.jar" filesetmanifest="mergewithoutmain">
 		 	<manifest>
 		 		<attribute name="Main-Class" value="connectfour.App"/>
@@ -127,10 +127,10 @@
 		</spotbugs>
 	</target>
 		
-	<target name="junit" depends="build">
+	<target name="junit" depends="compile">
 		<junitlauncher haltOnFailure="true" printSummary="true">
 			<classpath refid="test.classpath"/>
-			<testclasses outputdir="build/logs/test_report">
+			<testclasses outputdir="build/logs/tests_reports">
                 <fileset dir="bin/test">
                     <include name="**/*Test.class"/>
                 </fileset>
@@ -162,7 +162,7 @@
     	<delete dir="build"/>
     </target>
 		
-	<target name="build-ci" depends="init">
+	<target name="compile-ci" depends="init-ci">
         <echo message="${ant.project.name}: ${ant.file}"/>
   	  	<javac destdir="bin" srcdir="src/connectfour" includeantruntime="false"/>
     	<javac destdir="bin" classpathref="test.classpath" srcdir="src/test" includeantruntime="false"/>
@@ -198,7 +198,7 @@
 		</checkstyle>
 	</target>
 		
-	<target name="jar-ci" depends="build">
+	<target name="jar-ci" depends="compile-ci">
 		<jar destfile="./bin/ConnectFour.jar" filesetmanifest="mergewithoutmain">
 		 	<manifest>
 		 		<attribute name="Main-Class" value="connectfour.App"/>
@@ -208,7 +208,7 @@
   		</jar>
 	</target>
 		
-	<target name="spotbugs-ci" depends="jar">
+	<target name="spotbugs-ci" depends="jar-ci">
 		<spotbugs 	home="${spotbugs.home}"
 					output="xml"
 					outputfile="./build/logs/spotbugs_report.xml"
@@ -218,7 +218,20 @@
 		</spotbugs>
 	</target>
 		
-	<target name="all" depends="clean, init, build, sonar, checkstyle, pmd, spotbugs, junit" />
+	<target name="junit-ci" depends="compile-ci">
+		<junitlauncher haltOnFailure="true" printSummary="true">
+			<classpath refid="test.classpath"/>
+			<testclasses outputdir="build/logs/tests_reports">
+                <fileset dir="bin/test">
+                    <include name="**/*Test.class"/>
+                </fileset>
+                <listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>
+                <listener type="legacy-plain" sendSysOut="true" />
+            </testclasses>
+		</junitlauncher>
+	</target>
+		
+	<target name="all" depends="clean, init, compile, sonar, checkstyle, pmd, spotbugs, junit"/>
 				
-	<target name="all-ci" depends="clean-ci, init-ci, build-ci, sonar-ci, checkstyle-ci, pmd-ci, spotbugs-ci" />
+	<target name="all-ci" depends="clean-ci, init-ci, compile-ci, sonar-ci, checkstyle-ci, pmd-ci, spotbugs-ci, junit-ci"/>
 </project>
