@@ -27,7 +27,6 @@ hs_err_pid*
 # SonarQube
 .sonar/
 .scannerwork/
-.scannerwork/*
 
 # Eclipse
 .settings/
