@@ -162,13 +162,11 @@
     	<delete dir="build"/>
     </target>
 		
-    <target name="build-ci" depends="init">
+	<target name="build-ci" depends="init">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
-            <src path="src"/>
-            <classpath refid="MGL7460-Projet_1.classpath"/>
-        </javac>
-    </target>
+  	  	<javac destdir="bin" srcdir="src/connectfour" includeantruntime="false"/>
+    	<javac destdir="bin" classpathref="test.classpath" srcdir="src/test" includeantruntime="false"/>
+	</target>
 		
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects-ci"/>
     <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler-ci">
