@@ -25,7 +25,7 @@
 	<path id="test.classpath">
 	    <pathelement path="bin/test"/>
 	    <pathelement path="bin/connectfour"/>
-		<pathelement path="${ant.home}/lib/ant-junitlauncher.jar"/>
+		<pathelement path="${ant.library.dir}\ant-junitlauncher.jar"/>
 		<fileset dir="ant_lib/junit"/>
     </path>
 
@@ -48,7 +48,7 @@
 		
     <target name="init">
         <mkdir dir="bin"/>
-    	<mkdir dir="build/logs/test_report"/>
+    	<mkdir dir="build/logs/tests_reports"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
@@ -148,8 +148,8 @@
   	</target>
 		
     <target name="init-ci">
-        <mkdir dir="bin"/>
-    	<mkdir dir="build/logs"/>
+    	<mkdir dir="bin"/>
+    	<mkdir dir="build/logs/tests_reports"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
