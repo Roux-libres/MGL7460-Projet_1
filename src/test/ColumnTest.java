@@ -2,38 +2,29 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import connectfour.Column;
+import connectfour.Player;
+
 class ColumnTest {
+	Column column;
 
-	@Test
-	void testColumn() {
-		fail("Not yet implemented");
+	@BeforeEach
+	void setUp() throws Exception {
+		column = new Column(6);
 	}
-
+	
 	@Test
-	void testGetSize() {
-		fail("Not yet implemented");
+	void testConstructor() {
+		assertEquals(false, column.isFull());
 	}
-
+	
 	@Test
 	void testGetIndexEmptyTile() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testGetTile() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testAddToken() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testIsFull() {
-		fail("Not yet implemented");
+		column.addToken(new Player("Jean", 'X'));
+		assertEquals(1, column.getIndexEmptyTile());
 	}
 
 }
