@@ -15,7 +15,6 @@ class GridTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.grid = new Grid();
 		this.player = new Player("player", 'X');
 	}
 
@@ -29,15 +28,6 @@ class GridTest {
 
 		for (final Column column : grid.getColumns()) {
 			assertEquals(rows, column.getTiles().length);
-		}
-	}
-
-	@Test
-	void testDefaultGrid() {
-		assertEquals(Grid.DEFAULT_COLUMN_AMOUNT, this.grid.getColumns().length);
-
-		for (final Column column : this.grid.getColumns()) {
-			assertEquals(Grid.DEFAULT_ROW_AMOUNT, column.getTiles().length);
 		}
 	}
 

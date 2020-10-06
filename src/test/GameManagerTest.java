@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import connectfour.GameManager;
 import connectfour.Grid;
+import connectfour.Player;
 import connectfour.Token;
 
 class GameManagerTest {
@@ -36,22 +37,13 @@ class GameManagerTest {
 		int actualWidth = 5;
 		int actualHeight = 6;
 		gameManager.setGrid(actualWidth, actualHeight);
-		assertEquals(actualWidth, gameManager.getGrid());
-	}
-
-	@Test
-	void testSetPlayers() {
-		fail("Not yet implemented");
+	
+		Grid testGrid = new Grid(actualWidth, actualHeight);
+		assertEquals(testGrid, gameManager.getGrid());
 	}
 
 	@Test
 	void testGetTurnCount() {
-		fail("Not yet implemented");
-	}
-
-
-	@Test
-	void testGetPlayerByIndex() {
 		fail("Not yet implemented");
 	}
 
@@ -60,12 +52,12 @@ class GameManagerTest {
 		fail("Not yet implemented");
 	}
 
-	
 	@Test
-	void testInitGame() {
-		fail("Not yet implemented");
+	void testCreateandGetPlayer() {
+		gameManager.createPlayer("foo", 'x');
+		Player player = new Player("foo", 'x');
+		assertEquals(player, gameManager.getPlayerByIndex(0));
 	}
-
 	
 	@Test
 	void testHasWon() {

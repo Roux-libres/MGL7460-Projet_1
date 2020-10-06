@@ -1,8 +1,6 @@
 package connectfour;
 
 public class GameManager {
-	final int DEFAULT_ALIGNED_TOKEN = 4;
-	final int DEFAULT_COLUMN_AMOUNT = 7;
 	final int DEFAULT_ROW_AMOUNT = 6;
 	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
 	private int alignedToken;
@@ -34,7 +32,7 @@ public class GameManager {
 		//TODO
 	}
 	
-	private void createPlayer(String username, char symbol) {
+	public void createPlayer(String username, char symbol) {
 		//TODO
 	}
 	

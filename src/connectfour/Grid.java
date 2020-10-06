@@ -2,12 +2,6 @@ package connectfour;
 
 public class Grid {
 	private Column[] columns;
-	public static int DEFAULT_COLUMN_AMOUNT = 7;
-	public static int DEFAULT_ROW_AMOUNT = 6;
-
-	public Grid() {
-		// TODO
-	}
 
 	public Grid(int columnAmount, int rowAmount) {
 		// TODO
