@@ -5,7 +5,11 @@ public class Column {
 	private int indexEmptyTile;
 	
 	public Column(int size) {
-		//TODO
+		this.tiles = new Tile[size];
+		for(int index = 0; index < size; index++) {
+			this.tiles[index] = new Tile();
+		}
+		this.indexEmptyTile = 0;
 	}
 	
 	public int getIndexEmptyTile() {
@@ -16,8 +20,15 @@ public class Column {
 		return this.tiles[index];
 	}
 	
+	public Tile[] getTiles() {
+		return this.tiles;
+	}
+	
 	public void addToken(Player player) {
-		//TODO
+		if(!this.isFull()) {
+			this.getTile(this.getIndexEmptyTile()).setToken(player);
+			this.incrementIndexEmptyTile();
+		}
 	}
 	
 	private void incrementIndexEmptyTile() {
@@ -25,7 +36,10 @@ public class Column {
 	}
 	
 	public boolean isFull() {
-		//TODO
-		return false;
+		if(this.getIndexEmptyTile() + 1 == this.tiles.length) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
