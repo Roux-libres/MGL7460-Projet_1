@@ -4,7 +4,7 @@ public class Token {
 	private Player player;
 	
 	public Token(Player player) {
-		//TODO
+		this.setPlayer(player);
 	}
 	
 	public Player getPlayer() {
