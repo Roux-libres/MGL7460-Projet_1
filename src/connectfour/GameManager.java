@@ -54,7 +54,7 @@ public class GameManager {
 		return this.grid;
 	}
 	
-	public Player getPlayer(int index) {
+	public Player getPlayerByIndex(int index) {
 		//TODO
 		return null;
 	}
