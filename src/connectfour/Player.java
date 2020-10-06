@@ -5,7 +5,8 @@ public class Player {
 	private String name;
 	
 	public Player(String Name, char symbol) {
-		//TODO
+		this.setName(Name);
+		this.setSymbol(symbol);
 	}
 
 	public char getSymbol() {
