@@ -1,7 +1,6 @@
 package connectfour;
 
 public class GameManager {
-	final int DEFAULT_ROW_AMOUNT = 6;
 	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
 	private int alignedToken;
 	private Player[] players;
@@ -9,7 +8,7 @@ public class GameManager {
 	private Grid grid;
 	
 	public GameManager() {
-		//TODO
+		this.players = new Player[2];
 	}
 	
 	public void initGame() {
@@ -33,7 +32,13 @@ public class GameManager {
 	}
 	
 	public void createPlayer(String username, char symbol) {
-		//TODO
+		if(!(this.getPlayerByIndex(0) instanceof Player)) {
+			this.players[0] = new Player(username, symbol);
+		} else if(!(this.getPlayerByIndex(1) instanceof Player)) {
+			this.players[1] = new Player(username, symbol);
+		} else {
+			System.out.println("Two players already exists");
+		}
 	}
 	
 	public void playGame() {
@@ -44,7 +49,7 @@ public class GameManager {
 		return this.turnCount;
 	}
 	
-	private void incrementTurnCount() {
+	public void incrementTurnCount() {
 		this.turnCount += 1;
 	}
 	
@@ -53,8 +58,7 @@ public class GameManager {
 	}
 	
 	public Player getPlayerByIndex(int index) {
-		//TODO
-		return null;
+		return this.players[index];
 	}
 	
 	public boolean hasWon(Player player) {

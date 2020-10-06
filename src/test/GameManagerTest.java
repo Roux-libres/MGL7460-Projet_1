@@ -44,7 +44,11 @@ class GameManagerTest {
 
 	@Test
 	void testGetTurnCount() {
-		fail("Not yet implemented");
+		final int expectedTurnCount = 3;
+		for(int index = 0; index < expectedTurnCount; index++) {
+			this.gameManager.incrementTurnCount();
+		}
+		assertEquals(expectedTurnCount, this.gameManager.getTurnCount());
 	}
 
 	@Test
@@ -54,9 +58,10 @@ class GameManagerTest {
 
 	@Test
 	void testCreateandGetPlayer() {
-		gameManager.createPlayer("foo", 'x');
-		Player player = new Player("foo", 'x');
-		assertEquals(player, gameManager.getPlayerByIndex(0));
+		gameManager.createPlayer("Didier", 'x');
+		Player player = new Player("Didier", 'x');
+		assertEquals(player.getName(), gameManager.getPlayerByIndex(0).getName());
+		assertEquals(player.getSymbol(), gameManager.getPlayerByIndex(0).getSymbol());
 	}
 	
 	@Test
