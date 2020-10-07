@@ -1,34 +1,42 @@
 package connectfour;
 
+import java.util.Scanner;
+
+import com.sun.tools.javac.util.ArrayUtils;
+
 public class GameManager {
 	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-	private int alignedToken;
+	final int DEFAULT_COLUMN_AMOUNT = 7;
+	final int DEFAULT_ROW_AMOUNT = 6;
+	final int DEFAULT_ALIGNED_TOKEN = 4;
+	final Scanner reader;
+	private Grid grid;
 	private Player[] players;
 	private int turnCount;
-	private Grid grid;
+	private int lastColumnChoosed;
 	
 	public GameManager() {
+		this.reader = new Scanner(System.in);
+		this.setGrid(new Grid(this.DEFAULT_COLUMN_AMOUNT, this.DEFAULT_ROW_AMOUNT));
 		this.players = new Player[2];
 	}
 	
 	public void initGame() {
-		//TODO
+		this.setPlayers();
 	}
 	
-	public int getAlignedToken() {
-		return alignedToken;
-	}
-
-	public void setAlignedToken(int alignedToken) {
-		this.alignedToken = alignedToken;
-	}
-
-	public void setGrid(int width, int height) {
-		this.grid = new Grid(width, height);
+	public void setGrid(Grid grid) {
+		this.grid = grid;
 	}
 	
 	public void setPlayers() {
-		//TODO
+		for(int index = 0; index < 2; index ++) {
+			System.out.println("Choose a name for player " + Integer.toString(index + 1) + " :");
+			String player_name = this.reader.nextLine();
+			System.out.println("Choose a symbol for player " + Integer.toString(index + 1) + " :");
+			char player_symbol = this.reader.nextLine().charAt(0);
+			this.createPlayer(player_name, player_symbol);
+		}
 	}
 	
 	public void createPlayer(String username, char symbol) {
@@ -42,9 +50,31 @@ public class GameManager {
 	}
 	
 	public void playGame() {
-		//TODO
+		Player actualPlayer = this.getPlayerByIndex(0);
+		this.displayGrid();
+		while(!this.hasWon(actualPlayer) && !this.getGrid().isFull()) {
+			actualPlayer = this.getPlayerByIndex(this.getTurnCount() % 2);
+			System.out.println("It's the turn of " + actualPlayer.getName() + "\nChoose a column number : ");
+			this.setLastColumnChoosed(this.reader.nextInt() - 1);
+			this.getGrid().addToken(this.getLastColumnChoosed(), actualPlayer);
+			this.displayGrid();
+			this.incrementTurnCount();
+		}
+		if(this.getGrid().isFull()) {
+			System.out.println("Grid is full");
+		} else {
+			this.displayVictory();
+		}
 	}
 	
+	public int getLastColumnChoosed() {
+		return lastColumnChoosed;
+	}
+
+	public void setLastColumnChoosed(int lastColumnChoosed) {
+		this.lastColumnChoosed = lastColumnChoosed;
+	}
+
 	public int getTurnCount() {
 		return this.turnCount;
 	}
@@ -62,15 +92,60 @@ public class GameManager {
 	}
 	
 	public boolean hasWon(Player player) {
-		//TODO
+		int row = ((this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile() == 0) ? 0 : this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile() - 1);
+		
+		int alignedTokenCounter = 1;
+		for(int[] direction : this.DIRECTIONS) {
+			if(!this.isOutOfBound(this.getLastColumnChoosed(), row, direction[0] * 3, direction[1] * 3)) {
+				for(int index = 1; index < 4; index++) {
+					if(this.getGrid().getPlayerFromTile(this.getLastColumnChoosed() + direction[0] * index, row + direction[1] * index) == player) {
+						alignedTokenCounter++;
+					} else {
+						alignedTokenCounter = 1;
+						break;
+					}
+				}
+				
+				if(alignedTokenCounter == this.DEFAULT_ALIGNED_TOKEN) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	
+	public boolean isOutOfBound(int x, int y, int vx, int vy) {
+		if(x + vx < 0 || x + vx > this.DEFAULT_COLUMN_AMOUNT - 1 || y + vy < 0 || y + vy > this.DEFAULT_ROW_AMOUNT - 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public void displayGrid() {
+		char[][] table = new char[this.DEFAULT_ROW_AMOUNT][this.DEFAULT_COLUMN_AMOUNT];
 		
+		int columnCounter = 0;
+		for(Column column : this.getGrid().getColumns()) {
+			for(int index = this.DEFAULT_ROW_AMOUNT-1; index >= 0; index--) {
+				table[index][columnCounter] = column.toString().charAt(index);
+			}
+			columnCounter++;
+		}
+		
+		for(int i = 0; i < table.length / 2; i++) {
+		    char[] temp = table[i];
+		    table[i] = table[table.length - i - 1];
+		    table[table.length - i - 1] = temp;
+		}
+		
+		for(char[] line : table) {
+			System.out.println(new String(line));
+		}
 	}
 	
 	public void displayVictory() {
-		
+		System.out.println("\nAND THE WINNER IS " + this.getPlayerByIndex((this.getTurnCount() - 1) % 2).getName().toUpperCase());
+		System.out.println("Number of turns : " + Integer.toString(this.getTurnCount()));
 	}
 }

@@ -8,7 +8,7 @@ public class Token {
 	}
 	
 	public Player getPlayer() {
-		return player;
+		return this.player;
 	}
 	
 	public void setPlayer(Player player) {

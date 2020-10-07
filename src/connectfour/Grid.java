@@ -15,11 +15,27 @@ public class Grid {
 	}
 
 	public Player getPlayerFromTile(int column, int row) {
-		return this.getColumns()[column].getTile(row).getToken().getPlayer();
+		if(!this.getColumn(column).getTile(row).isEmpty()) {
+			return this.getColumn(column).getTile(row).getToken().getPlayer();
+		} else {
+			return null;
+		}
 	}
 
 	public Column[] getColumns() {
 		return this.columns;
 	}
 
+	public Column getColumn(int columnIndex) {
+		return this.columns[columnIndex];
+	}
+	
+	public boolean isFull() {
+		for(Column column : this.getColumns()) {
+			if(!column.isFull()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

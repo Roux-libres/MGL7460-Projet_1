@@ -2,14 +2,12 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import connectfour.GameManager;
 import connectfour.Grid;
 import connectfour.Player;
-import connectfour.Token;
 
 class GameManagerTest {
 
@@ -20,26 +18,11 @@ class GameManagerTest {
 		gameManager = new GameManager();
 	}
 
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
-	@Test
-	void testGetAndSetAlignedToken() {
-		int actualValue = 5;
-		gameManager.setAlignedToken(actualValue);
-		assertEquals(actualValue, gameManager.getAlignedToken());
-	}
-
-
 	@Test
 	void testGetAndSetGrid() {
-		int actualWidth = 5;
-		int actualHeight = 6;
-		gameManager.setGrid(actualWidth, actualHeight);
-	
-		Grid testGrid = new Grid(actualWidth, actualHeight);
-		assertEquals(testGrid, gameManager.getGrid());
+		Grid expectedGrid = new Grid(7, 6);
+		this.gameManager.setGrid(expectedGrid);
+		assertEquals(expectedGrid, gameManager.getGrid());
 	}
 
 	@Test
@@ -52,31 +35,29 @@ class GameManagerTest {
 	}
 
 	@Test
-	void testPlayGame() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	void testCreateandGetPlayer() {
-		gameManager.createPlayer("Didier", 'x');
+		this.gameManager.createPlayer("Didier", 'x');
 		Player player = new Player("Didier", 'x');
-		assertEquals(player.getName(), gameManager.getPlayerByIndex(0).getName());
-		assertEquals(player.getSymbol(), gameManager.getPlayerByIndex(0).getSymbol());
+		assertEquals(player.getName(), this.gameManager.getPlayerByIndex(0).getName());
+		assertEquals(player.getSymbol(), this.gameManager.getPlayerByIndex(0).getSymbol());
 	}
 	
 	@Test
 	void testHasWon() {
-		fail("Not yet implemented");
+		this.gameManager.createPlayer("Philippe", 'O');
+		Player player = this.gameManager.getPlayerByIndex(0);
+		this.gameManager.setLastColumnChoosed(0);
+		assertEquals(false, this.gameManager.hasWon(player));
+		for(int index = 0; index < 4; index++) {
+			this.gameManager.getGrid().addToken(this.gameManager.getLastColumnChoosed(), player);
+		}
+		assertEquals(true, this.gameManager.hasWon(player));
 	}
-
+	
 	@Test
-	void testDisplayGrid() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testDisplayVictory() {
-		fail("Not yet implemented");
+	void testIsOutOfBound() {
+		assertEquals(false, this.gameManager.isOutOfBound(0, 0, 3, 3));
+		assertEquals(true, this.gameManager.isOutOfBound(0, 0, -3, -3));
 	}
 
 }
