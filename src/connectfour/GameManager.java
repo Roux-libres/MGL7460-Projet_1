@@ -2,8 +2,6 @@ package connectfour;
 
 import java.util.Scanner;
 
-import com.sun.tools.javac.util.ArrayUtils;
-
 public class GameManager {
 	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
 	final int DEFAULT_COLUMN_AMOUNT = 7;
