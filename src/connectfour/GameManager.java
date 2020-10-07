@@ -121,20 +121,31 @@ public class GameManager {
 	}
 	
 	public void displayGrid() {
-		char[][] table = new char[this.DEFAULT_ROW_AMOUNT][this.DEFAULT_COLUMN_AMOUNT];
+		char[][] table = new char[this.DEFAULT_ROW_AMOUNT * 2 + 1][this.DEFAULT_COLUMN_AMOUNT * 2 + 2];
 		
-		int columnCounter = 0;
-		for(Column column : this.getGrid().getColumns()) {
-			for(int index = this.DEFAULT_ROW_AMOUNT-1; index >= 0; index--) {
-				table[index][columnCounter] = column.toString().charAt(index);
+		for(int indexColumn = 0; indexColumn < this.DEFAULT_COLUMN_AMOUNT * 2 + 1; indexColumn++) {
+			if(indexColumn % 2 == 0) {
+				for(int indexRow = this.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
+					table[indexRow][indexColumn] = '|';
+				}
+			} else {
+				for(int indexRow = this.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
+					if(indexRow % 2 == 0) {
+						table[indexRow][indexColumn] = '—';
+					} else {
+						table[indexRow][indexColumn] = this.getGrid().getColumn(indexColumn / 2).toString().charAt(indexRow / 2);
+					}
+				}
 			}
-			columnCounter++;
+			for(int index = 1; index < this.DEFAULT_COLUMN_AMOUNT + 1; index++) {
+				table[0][index * 2 - 1] = Integer.toString(index).charAt(0);
+			}
 		}
 		
-		for(int i = 0; i < table.length / 2; i++) {
-		    char[] temp = table[i];
-		    table[i] = table[table.length - i - 1];
-		    table[table.length - i - 1] = temp;
+		for(int index = 0; index < table.length / 2; index++) {
+		    char[] temp = table[index];
+		    table[index] = table[table.length - index - 1];
+		    table[table.length - index - 1] = temp;
 		}
 		
 		for(char[] line : table) {
