@@ -4,7 +4,7 @@ public class Tile {
 	private Token token;
 
 	public Tile() {
-		//TODO
+		
 	}
 	
 	public Token getToken() {

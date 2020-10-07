@@ -1,6 +1,7 @@
 package connectfour;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class GameManager {
 	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
@@ -30,11 +31,21 @@ public class GameManager {
 	public void setPlayers() {
 		for(int index = 0; index < 2; index ++) {
 			System.out.println("Choose a name for player " + Integer.toString(index + 1) + " :");
-			String player_name = this.reader.nextLine();
+			String player_name = this.ManageTextEntry();
 			System.out.println("Choose a symbol for player " + Integer.toString(index + 1) + " :");
-			char player_symbol = this.reader.nextLine().charAt(0);
+			char player_symbol = this.ManageTextEntry().charAt(0);
+			System.out.println("The player -" + player_name + "- has the symbol \"" + player_symbol + "\" \n");
 			this.createPlayer(player_name, player_symbol);
 		}
+	}
+	
+	private String ManageTextEntry() {
+		String text = this.reader.nextLine();
+		while (!Pattern.matches("[a-zA-Z0-9]*", text) || text.length() == 0) {
+    	   System.out.println("Missing or incorrect text. Try Again.");
+    	   text = this.reader.nextLine();
+	    }
+		return text;
 	}
 	
 	public void createPlayer(String username, char symbol) {
@@ -53,16 +64,39 @@ public class GameManager {
 		while(!this.hasWon(actualPlayer) && !this.getGrid().isFull()) {
 			actualPlayer = this.getPlayerByIndex(this.getTurnCount() % 2);
 			System.out.println("It's the turn of " + actualPlayer.getName() + "\nChoose a column number : ");
-			this.setLastColumnChoosed(this.reader.nextInt() - 1);
+			this.setLastColumnChoosed(this.ManageColumnChoosed() - 1);
+			while (this.getGrid().getColumn(this.getLastColumnChoosed()).isFull()) {
+				System.out.println("This column is full. Please choose another.");
+				this.setLastColumnChoosed(this.ManageColumnChoosed() - 1);
+			}
 			this.getGrid().addToken(this.getLastColumnChoosed(), actualPlayer);
 			this.displayGrid();
 			this.incrementTurnCount();
+			;
 		}
 		if(this.getGrid().isFull()) {
 			System.out.println("Grid is full");
 		} else {
 			this.displayVictory();
 		}
+	}
+	
+	private int ManageColumnChoosed() {
+		int columnChoosed = -1;
+		while (columnChoosed < 0) {
+    	   try {
+    		   columnChoosed=this.reader.nextInt();
+    		   if (columnChoosed > this.DEFAULT_ROW_AMOUNT + 1 || columnChoosed < 1) {
+    			   System.out.println("This column number doesn't exist. Try again:");
+    			   columnChoosed = -1;
+    		   }
+    	   } catch (java.util.InputMismatchException e) {
+    		   System.out.println("Please enter a correct column number.");
+    	   }
+    	   
+    	   this.reader.nextLine();
+		}
+		return columnChoosed;
 	}
 	
 	public int getLastColumnChoosed() {
