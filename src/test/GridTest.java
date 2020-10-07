@@ -1,6 +1,6 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,32 +12,21 @@ import connectfour.Player;
 class GridTest {
 	private Grid grid;
 	private Player player;
+	final int columns = 8;
+	final int rows = 6;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		this.grid = new Grid();
 		this.player = new Player("player", 'X');
+		this.grid = new Grid(this.columns, this.rows);
 	}
 
 	@Test
 	void testGrid() {
-		final int columns = 8;
-		final int rows = 6;
-		final Grid grid = new Grid(columns, rows);
-
-		assertEquals(columns, grid.getColumns().length);
-
-		for (final Column column : grid.getColumns()) {
-			assertEquals(rows, column.getTiles().length);
-		}
-	}
-
-	@Test
-	void testDefaultGrid() {
-		assertEquals(Grid.DEFAULT_COLUMN_AMOUNT, this.grid.getColumns().length);
+		assertEquals(this.columns, this.grid.getColumns().length);
 
 		for (final Column column : this.grid.getColumns()) {
-			assertEquals(Grid.DEFAULT_ROW_AMOUNT, column.getTiles().length);
+			assertEquals(this.rows, column.getTiles().length);
 		}
 	}
 
@@ -47,7 +36,7 @@ class GridTest {
 
 		this.grid.addToken(columnIndex, this.player);
 		assertEquals(this.player, this.grid.getColumns()[columnIndex]
-				.getTile(this.grid.getColumns()[columnIndex].getIndexEmptyTile()).getToken().getPlayer());
+				.getTile(this.grid.getColumns()[columnIndex].getIndexEmptyTile() - 1).getToken().getPlayer());
 	}
 
 	@Test

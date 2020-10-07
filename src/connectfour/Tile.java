@@ -8,7 +8,7 @@ public class Tile {
 	}
 	
 	public Token getToken() {
-		return token;
+		return this.token;
 	}
 
 	public void setToken(Player player) {

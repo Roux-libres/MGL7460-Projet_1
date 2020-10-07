@@ -42,4 +42,16 @@ public class Column {
 			return false;
 		}
 	}
+	
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		for(Tile tile : this.getTiles()) {
+			if(tile.isEmpty()) {
+				result.append(' ');
+			} else {
+				result.append(tile.getToken().getPlayer().getSymbol());
+			}
+		}
+		return result.toString();
+	}
 }
