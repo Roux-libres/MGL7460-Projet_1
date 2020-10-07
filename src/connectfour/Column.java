@@ -36,7 +36,7 @@ public class Column {
 	}
 	
 	public boolean isFull() {
-		if(this.getIndexEmptyTile() + 1 == this.tiles.length) {
+		if(this.getIndexEmptyTile() == this.tiles.length) {
 			return true;
 		} else {
 			return false;
