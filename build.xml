@@ -17,15 +17,15 @@
   	<property name="sonar.java.binaries" value="./src" />
   	<property name="sonar.java.libraries" value="./ant_lib/sonarqube-ant-task-2.7.0.1612.jar" />
 	<property name="spotbugs.home" value="./spotbugs-4.1.3" />
+	<property name="build.class.test" value="bin/test"/>
     
 	<path id="MGL7460-Projet_1.classpath">
         <pathelement location="bin"/>
     </path>
 		
 	<path id="test.classpath">
-	    <pathelement path="bin/test"/>
-	    <pathelement path="bin/connectfour"/>
-		<pathelement path="${ant.library.dir}\ant-junitlauncher.jar"/>
+		<pathelement location="${ant.library.dir}\ant-junitlauncher.jar"/>
+		<pathelement location="bin/ConnectFour.jar"/>
 		<fileset dir="ant_lib/junit"/>
     </path>
 
@@ -126,18 +126,37 @@
 		<sourcepath path="./src/connectfour"/>
 		</spotbugs>
 	</target>
+	
+	<pathconvert property="testcp" refid="test.classpath" />
 		
-	<target name="junit" depends="compile">
+	<!--target name="junit" depends="jar">
+		<echo message="${testcp}"/>
+		<sleep seconds="0"/>
 		<junitlauncher haltOnFailure="true" printSummary="true">
 			<classpath refid="test.classpath"/>
-			<testclasses outputdir="build/logs/tests_reports">
-                <fileset dir="bin/test">
-                    <include name="**/*Test.class"/>
+			<testclasses outputdir="build/logs/tests_reports" includeEngines="junit-jupiter">
+                <fileset dir="bin" includes="**/*">
                 </fileset>
                 <listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>
                 <listener type="legacy-plain" sendSysOut="true" />
             </testclasses>
 		</junitlauncher>
+	</target-->
+		
+	<target name="junit" depends="jar">
+		<echo message="${testcp}"/>
+        <java classpathref="test.classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="false">
+            <arg value="--scan-classpath"/>
+        	<arg value="--include-engine=junit-jupiter"/>
+        	<arg value="--classpath=${testcp}"/>
+        	<arg line="--reports-dir build/logs/tests_reports"/>
+        </java>
+		<junitreport todir="build/logs/tests_reports">
+	        <fileset dir="build/logs/tests_reports">
+	            <include name="TEST-*.xml"/>
+	        </fileset>
+	        <report format="frames" todir="build/logs/tests_reports/html"/>
+		</junitreport>
 	</target>
 		
   	<target name="sonar-ci">
@@ -218,17 +237,20 @@
 		</spotbugs>
 	</target>
 		
-	<target name="junit-ci" depends="compile-ci">
-		<junitlauncher haltOnFailure="true" printSummary="true">
-			<classpath refid="test.classpath"/>
-			<testclasses outputdir="build/logs/tests_reports">
-                <fileset dir="bin/test">
-                    <include name="**/*Test.class"/>
-                </fileset>
-                <listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/>
-                <listener type="legacy-plain" sendSysOut="true" />
-            </testclasses>
-		</junitlauncher>
+	<target name="junit-ci" depends="jar-ci">
+		<echo message="${testcp}"/>
+        <java classpathref="test.classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="false">
+            <arg value="--scan-classpath"/>
+        	<arg value="--include-engine=junit-jupiter"/>
+        	<arg value="--classpath=${testcp}"/>
+        	<arg line="--reports-dir build/logs/tests_reports"/>
+        </java>
+		<junitreport todir="build/logs/tests_reports">
+	        <fileset dir="build/logs/tests_reports">
+	            <include name="TEST-*.xml"/>
+	        </fileset>
+	        <report format="frames" todir="build/logs/tests_reports/html"/>
+		</junitreport>
 	</target>
 		
 	<target name="all" depends="clean, init, compile, sonar, checkstyle, pmd, spotbugs, junit"/>
