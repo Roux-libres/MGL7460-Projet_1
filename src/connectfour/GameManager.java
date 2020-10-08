@@ -227,8 +227,8 @@ public class GameManager {
      * @return true, if is out of bound
      */
     public boolean isOutOfBound(int x, int y, int vx, int vy) {
-        return (x + vx < 0 || x + vx > GameManager.DEFAULT_COLUMN_AMOUNT - 1 || y + vy < 0
-                        || y + vy > GameManager.DEFAULT_ROW_AMOUNT - 1);
+        return x + vx < 0 || x + vx > GameManager.DEFAULT_COLUMN_AMOUNT - 1 || y + vy < 0
+                        || y + vy > GameManager.DEFAULT_ROW_AMOUNT - 1;
     }
 
     /**
@@ -274,8 +274,9 @@ public class GameManager {
      * Display victory.
      */
     public void displayVictory() {
-        System.out.println("\nAND THE WINNER IS " + this
-                        .getPlayerByIndex((this.getTurnCount() - 1) % 2).getName().toUpperCase(Locale.getDefault()));
+        System.out.println("\nAND THE WINNER IS "
+                        + this.getPlayerByIndex((this.getTurnCount() - 1) % 2).getName()
+                                        .toUpperCase(Locale.getDefault()));
         System.out.println("Number of turns : " + Integer.toString(this.getTurnCount()));
     }
 }

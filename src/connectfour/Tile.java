@@ -8,13 +8,6 @@ public class Tile {
     private Token token;
 
     /**
-     * Instantiates a new tile.
-     */
-    public Tile() {
-        // This constructor is intentionally empty. Nothing special is needed here.
-    }
-
-    /**
      * Gets the token.
      *
      * @return the token
