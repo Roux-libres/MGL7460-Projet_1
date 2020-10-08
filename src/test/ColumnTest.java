@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import connectfour.Column;
 import connectfour.Player;
@@ -32,7 +33,7 @@ class ColumnTest {
      */
     @Test
     void testConstructor() {
-        assertEquals(false, this.column.isFull());
+        assertFalse(this.column.isFull());
     }
 
     /**
