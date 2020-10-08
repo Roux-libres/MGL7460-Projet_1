@@ -1,11 +1,11 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import connectfour.GameManager;
 import connectfour.Grid;
 import connectfour.Player;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -23,7 +23,7 @@ class GameManagerTest {
      */
     @BeforeEach
     void setUp() throws Exception {
-        gameManager = new GameManager();
+        this.gameManager = new GameManager();
     }
 
     /**
@@ -31,9 +31,9 @@ class GameManagerTest {
      */
     @Test
     void testGetAndSetGrid() {
-        Grid expectedGrid = new Grid(7, 6);
+        final Grid expectedGrid = new Grid(7, 6);
         this.gameManager.setGrid(expectedGrid);
-        assertEquals(expectedGrid, gameManager.getGrid());
+        assertEquals(expectedGrid, this.gameManager.getGrid());
     }
 
     /**
@@ -54,7 +54,7 @@ class GameManagerTest {
     @Test
     void testCreateandGetPlayer() {
         this.gameManager.createPlayer("Didier", 'x');
-        Player player = new Player("Didier", 'x');
+        final Player player = new Player("Didier", 'x');
         assertEquals(player.getName(), this.gameManager.getPlayerByIndex(0).getName());
         assertEquals(player.getSymbol(), this.gameManager.getPlayerByIndex(0).getSymbol());
     }
@@ -65,7 +65,7 @@ class GameManagerTest {
     @Test
     void testHasWon() {
         this.gameManager.createPlayer("Philippe", 'O');
-        Player player = this.gameManager.getPlayerByIndex(0);
+        final Player player = this.gameManager.getPlayerByIndex(0);
         this.gameManager.setLastColumnChoosed(0);
         assertEquals(false, this.gameManager.hasWon(player));
         for (int index = 0; index < 4; index++) {

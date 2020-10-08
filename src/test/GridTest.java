@@ -1,27 +1,27 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import connectfour.Column;
 import connectfour.Grid;
 import connectfour.Player;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GridTest.
  */
 class GridTest {
-    
+
     /** The grid. */
     private Grid grid;
-    
+
     /** The player. */
     private Player player;
-    
+
     /** The columns. */
     static int columns = 8;
-    
+
     /** The rows. */
     static int rows = 6;
 

@@ -1,10 +1,10 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import connectfour.Column;
 import connectfour.Player;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 
 // TODO: Auto-generated Javadoc
@@ -23,7 +23,7 @@ class ColumnTest {
      */
     @BeforeEach
     void setUp() throws Exception {
-        column = new Column(6);
+        this.column = new Column(6);
     }
 
     /**
@@ -31,7 +31,7 @@ class ColumnTest {
      */
     @Test
     void testConstructor() {
-        assertEquals(false, column.isFull());
+        assertEquals(false, this.column.isFull());
     }
 
     /**
@@ -39,8 +39,8 @@ class ColumnTest {
      */
     @Test
     void testGetIndexEmptyTile() {
-        column.addToken(new Player("Jean", 'X'));
-        assertEquals(1, column.getIndexEmptyTile());
+        this.column.addToken(new Player("Jean", 'X'));
+        assertEquals(1, this.column.getIndexEmptyTile());
     }
 
 }

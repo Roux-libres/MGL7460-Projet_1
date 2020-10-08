@@ -1,19 +1,15 @@
-/**
-* 
-*/
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import connectfour.Player;
 import connectfour.Tile;
 import connectfour.Token;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TileTest.
  */
@@ -32,8 +28,8 @@ class TileTest {
      */
     @BeforeEach
     void setUp() throws Exception {
-        tile = new Tile();
-        player = new Player("foo", 'x');
+        this.tile = new Tile();
+        this.player = new Player("foo", 'x');
     }
 
 
@@ -43,7 +39,7 @@ class TileTest {
      */
     @Test
     void testTile() {
-        assertNull(tile.getToken());
+        assertNull(this.tile.getToken());
     }
 
     /**
@@ -51,9 +47,9 @@ class TileTest {
      */
     @Test
     void testGetAndSetToken() {
-        tile.setToken(player);
-        Token token = tile.getToken();
-        assertEquals(player, token.getPlayer());
+        this.tile.setToken(this.player);
+        final Token token = this.tile.getToken();
+        assertEquals(this.player, token.getPlayer());
     }
 
 
@@ -62,9 +58,9 @@ class TileTest {
      */
     @Test
     void testIsEmpty() {
-        assertTrue(tile.isEmpty());
-        tile.setToken(player);
-        assertFalse(tile.isEmpty());
+        assertTrue(this.tile.isEmpty());
+        this.tile.setToken(this.player);
+        assertFalse(this.tile.isEmpty());
     }
 
 }
