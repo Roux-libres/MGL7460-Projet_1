@@ -11,7 +11,7 @@ public class Player {
     /**
      * Instantiates a new player.
      *
-     * @param Name the name
+     * @param name the name
      * @param symbol the symbol
      */
     public Player(String name, char symbol) {
