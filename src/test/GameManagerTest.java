@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import connectfour.GameManager;
 import connectfour.Grid;
 import connectfour.Player;
