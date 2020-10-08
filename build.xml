@@ -245,12 +245,6 @@
         	<arg value="--classpath=${testcp}"/>
         	<arg line="--reports-dir build/logs/tests_reports"/>
         </java>
-		<junitreport todir="build/logs/tests_reports">
-	        <fileset dir="build/logs/tests_reports">
-	            <include name="TEST-*.xml"/>
-	        </fileset>
-	        <report format="frames" todir="build/logs/tests_reports/html"/>
-		</junitreport>
 	</target>
 		
 	<target name="all" depends="clean, init, compile, sonar, checkstyle, pmd, spotbugs, junit"/>
