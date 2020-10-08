@@ -1,5 +1,7 @@
 package connectfour;
 
+@SuppressWarnings("PMD.UseUtilityClass")
+
 /**
  * The Class App.
  */
