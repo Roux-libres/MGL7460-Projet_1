@@ -1,27 +1,57 @@
 package connectfour;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Player.
+ */
 public class Player {
-	private char symbol;
-	private String name;
-	
-	public Player(String Name, char symbol) {
-		this.setName(Name);
-		this.setSymbol(symbol);
-	}
+    private char symbol;
+    private String name;
 
-	public char getSymbol() {
-		return symbol;
-	}
+    /**
+     * Instantiates a new player.
+     *
+     * @param Name the name
+     * @param symbol the symbol
+     */
+    public Player(String Name, char symbol) {
+        this.setName(Name);
+        this.setSymbol(symbol);
+    }
 
-	public void setSymbol(char symbol) {
-		this.symbol = symbol;
-	}
+    /**
+     * Gets the symbol.
+     *
+     * @return the symbol
+     */
+    public char getSymbol() {
+        return symbol;
+    }
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * Sets the symbol.
+     *
+     * @param symbol the new symbol
+     */
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * Sets the name.
+     *
+     * @param name the new name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }
