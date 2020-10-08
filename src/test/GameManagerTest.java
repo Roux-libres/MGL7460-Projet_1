@@ -1,6 +1,8 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import connectfour.GameManager;
 import connectfour.Grid;
@@ -68,11 +70,11 @@ class GameManagerTest {
         this.gameManager.createPlayer("Philippe", 'O');
         final Player player = this.gameManager.getPlayerByIndex(0);
         this.gameManager.setLastColumnChoosed(0);
-        assertEquals(false, this.gameManager.hasWon(player));
+        assertFalse(this.gameManager.hasWon(player));
         for (int index = 0; index < 4; index++) {
             this.gameManager.getGrid().addToken(this.gameManager.getLastColumnChoosed(), player);
         }
-        assertEquals(true, this.gameManager.hasWon(player));
+        assertTrue(this.gameManager.hasWon(player));
     }
 
     /**
@@ -80,8 +82,8 @@ class GameManagerTest {
      */
     @Test
     void testIsOutOfBound() {
-        assertEquals(false, this.gameManager.isOutOfBound(0, 0, 3, 3));
-        assertEquals(true, this.gameManager.isOutOfBound(0, 0, -3, -3));
+        assertFalse(this.gameManager.isOutOfBound(0, 0, 3, 3));
+        assertTrue(this.gameManager.isOutOfBound(0, 0, -3, -3));
     }
 
 }
