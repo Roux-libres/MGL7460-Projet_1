@@ -2,10 +2,10 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import connectfour.Player;
 import org.junit.jupiter.api.Test;
 
-// TODO: Auto-generated Javadoc
+import connectfour.Player;
+
 /**
  * The Class PlayerTest.
  */

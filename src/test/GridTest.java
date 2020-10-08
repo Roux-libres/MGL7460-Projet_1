@@ -2,13 +2,13 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import connectfour.Column;
-import connectfour.Grid;
-import connectfour.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-// TODO: Auto-generated Javadoc
+import connectfour.Column;
+import connectfour.Grid;
+import connectfour.Player;
+
 /**
  * The Class GridTest.
  */
@@ -32,7 +32,7 @@ class GridTest {
      * @throws Exception the exception
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.player = new Player("player", 'X');
         this.grid = new Grid(GridTest.columns, GridTest.rows);
     }

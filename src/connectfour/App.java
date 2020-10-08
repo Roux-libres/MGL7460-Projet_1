@@ -1,6 +1,5 @@
 package connectfour;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class App.
  */

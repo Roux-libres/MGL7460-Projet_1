@@ -4,13 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import connectfour.GameManager;
-import connectfour.Grid;
-import connectfour.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-// TODO: Auto-generated Javadoc
+import connectfour.GameManager;
+import connectfour.Grid;
+import connectfour.Player;
+
 /**
  * The Class GameManagerTest.
  */
@@ -25,7 +25,7 @@ class GameManagerTest {
      * @throws Exception the exception
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.gameManager = new GameManager();
     }
 
