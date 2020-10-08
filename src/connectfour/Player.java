@@ -14,8 +14,8 @@ public class Player {
      * @param Name the name
      * @param symbol the symbol
      */
-    public Player(String Name, char symbol) {
-        this.setName(Name);
+    public Player(String name, char symbol) {
+        this.setName(name);
         this.setSymbol(symbol);
     }
 
