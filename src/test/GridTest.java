@@ -12,21 +12,21 @@ import connectfour.Player;
 class GridTest {
 	private Grid grid;
 	private Player player;
-	final int columns = 8;
-	final int rows = 6;
+	static int columns = 8;
+	static int rows = 6;
 
 	@BeforeEach
 	void setUp() throws Exception {
 		this.player = new Player("player", 'X');
-		this.grid = new Grid(this.columns, this.rows);
+		this.grid = new Grid(GridTest.columns, GridTest.rows);
 	}
 
 	@Test
 	void testGrid() {
-		assertEquals(this.columns, this.grid.getColumns().length);
+		assertEquals(GridTest.columns, this.grid.getColumns().length);
 
 		for (final Column column : this.grid.getColumns()) {
-			assertEquals(this.rows, column.getTiles().length);
+			assertEquals(GridTest.rows, column.getTiles().length);
 		}
 	}
 
