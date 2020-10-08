@@ -15,7 +15,7 @@ public class GameManager {
     static int DEFAULT_ALIGNED_TOKEN = 4;
     final Scanner reader;
     private Grid grid;
-    private Player[] players;
+    private final Player[] players;
     private int turnCount;
     private int lastColumnChoosed;
 
@@ -23,7 +23,7 @@ public class GameManager {
      * Instantiates a new game manager.
      */
     public GameManager() {
-        this.reader = new Scanner(System.in);
+        this.reader = new Scanner(System.in, "UTF-8");
         this.setGrid(new Grid(GameManager.DEFAULT_COLUMN_AMOUNT, GameManager.DEFAULT_ROW_AMOUNT));
         this.players = new Player[2];
     }
@@ -50,9 +50,9 @@ public class GameManager {
     public void setPlayers() {
         for (int index = 0; index < 2; index++) {
             System.out.println("Choose a name for player " + Integer.toString(index + 1) + " :");
-            String player_name = this.ManageTextEntry();
+            final String player_name = this.ManageTextEntry();
             System.out.println("Choose a symbol for player " + Integer.toString(index + 1) + " :");
-            char player_symbol = this.ManageTextEntry().charAt(0);
+            final char player_symbol = this.ManageTextEntry().charAt(0);
             System.out.println(
                     "The player -" + player_name + "- has the symbol \"" + player_symbol + "\" \n");
             this.createPlayer(player_name, player_symbol);
@@ -119,7 +119,7 @@ public class GameManager {
                     System.out.println("This column number doesn't exist. Try again:");
                     columnChoosed = -1;
                 }
-            } catch (java.util.InputMismatchException e) {
+            } catch (final java.util.InputMismatchException e) {
                 System.out.println("Please enter a correct column number.");
             }
 
@@ -134,7 +134,7 @@ public class GameManager {
      * @return the last column choosed
      */
     public int getLastColumnChoosed() {
-        return lastColumnChoosed;
+        return this.lastColumnChoosed;
     }
 
     /**
@@ -188,12 +188,14 @@ public class GameManager {
      * @return true, if successful
      */
     public boolean hasWon(Player player) {
-        int row = ((this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile() == 0)
-                ? 0
-                : this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile() - 1);
+        final int row =
+                ((this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile() == 0)
+                        ? 0
+                        : this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile()
+                                - 1);
 
         int alignedTokenCounter = 1;
-        for (int[] direction : this.DIRECTIONS) {
+        for (final int[] direction : this.DIRECTIONS) {
             if (!this.isOutOfBound(this.getLastColumnChoosed(), row, direction[0] * 3,
                     direction[1] * 3)) {
                 for (int index = 1; index < 4; index++) {
@@ -237,7 +239,7 @@ public class GameManager {
      * Display grid.
      */
     public void displayGrid() {
-        char[][] table = new char[GameManager.DEFAULT_ROW_AMOUNT * 2
+        final char[][] table = new char[GameManager.DEFAULT_ROW_AMOUNT * 2
                 + 1][GameManager.DEFAULT_COLUMN_AMOUNT * 2 + 2];
 
         for (int indexColumn = 0; indexColumn < GameManager.DEFAULT_COLUMN_AMOUNT * 2
@@ -262,12 +264,12 @@ public class GameManager {
         }
 
         for (int index = 0; index < table.length / 2; index++) {
-            char[] temp = table[index];
+            final char[] temp = table[index];
             table[index] = table[table.length - index - 1];
             table[table.length - index - 1] = temp;
         }
 
-        for (char[] line : table) {
+        for (final char[] line : table) {
             System.out.println(new String(line));
         }
     }
