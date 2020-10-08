@@ -5,7 +5,7 @@ package connectfour;
  * The Class Column.
  */
 public class Column {
-    private Tile[] tiles;
+    private final Tile[] tiles;
     private int indexEmptyTile;
 
     /**
@@ -46,7 +46,7 @@ public class Column {
      * @return the tiles
      */
     public Tile[] getTiles() {
-        return this.tiles;
+        return this.tiles.clone();
     }
 
     /**
@@ -83,9 +83,10 @@ public class Column {
      *
      * @return the string
      */
+    @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        for (Tile tile : this.getTiles()) {
+        final StringBuilder result = new StringBuilder();
+        for (final Tile tile : this.getTiles()) {
             if (tile.isEmpty()) {
                 result.append(' ');
             } else {

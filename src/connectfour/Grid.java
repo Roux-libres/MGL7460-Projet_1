@@ -2,7 +2,7 @@ package connectfour;
 
 // TODO: Auto-generated Javadoc
 public class Grid {
-    private Column[] columns;
+    private final Column[] columns;
 
     /**
      * Instantiates a new grid.
@@ -48,7 +48,7 @@ public class Grid {
      * @return the columns
      */
     public Column[] getColumns() {
-        return this.columns;
+        return this.columns.clone();
     }
 
     /**
@@ -67,7 +67,7 @@ public class Grid {
      * @return true, if is full
      */
     public boolean isFull() {
-        for (Column column : this.getColumns()) {
+        for (final Column column : this.getColumns()) {
             if (!column.isFull()) {
                 return false;
             }
