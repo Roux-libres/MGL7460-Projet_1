@@ -3,13 +3,12 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import connectfour.Column;
-import connectfour.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import connectfour.Column;
+import connectfour.Player;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ColumnTest.
  */
@@ -24,7 +23,7 @@ class ColumnTest {
      * @throws Exception the exception
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         this.column = new Column(6);
     }
 

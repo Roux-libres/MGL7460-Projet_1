@@ -1,6 +1,5 @@
 package connectfour;
 
-// TODO: Auto-generated Javadoc
 public class Grid {
     private final Column[] columns;
 
