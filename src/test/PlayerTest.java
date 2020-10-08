@@ -1,8 +1,8 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 import connectfour.Player;
+import org.junit.jupiter.api.Test;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -15,7 +15,7 @@ class PlayerTest {
      */
     @Test
     void test() {
-        Player player = new Player("Jean", 'X');
+        final Player player = new Player("Jean", 'X');
         assertEquals("Jean", player.getName());
         assertEquals('X', player.getSymbol());
     }

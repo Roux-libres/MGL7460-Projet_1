@@ -1,9 +1,9 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 import connectfour.Player;
 import connectfour.Token;
+import org.junit.jupiter.api.Test;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -17,7 +17,7 @@ class TokenTest {
     @Test
     void testGetPlayer() {
         final Player player = new Player("Jean", 'X');
-        Token token = new Token(player);
+        final Token token = new Token(player);
         assertEquals(player, token.getPlayer());
     }
 
