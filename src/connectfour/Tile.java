@@ -3,9 +3,7 @@ package connectfour;
 public class Tile {
 	private Token token;
 
-	public Tile() {
-		
-	}
+	public Tile() {}
 	
 	public Token getToken() {
 		return this.token;
@@ -16,7 +14,7 @@ public class Tile {
 	}
 	
 	public boolean isEmpty() {
-		if(this.getToken() instanceof Token) {
+		if(this.getToken() != null) {
 			return false;
 		} else {
 			return true;

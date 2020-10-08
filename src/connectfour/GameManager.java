@@ -5,9 +5,9 @@ import java.util.regex.Pattern;
 
 public class GameManager {
 	final int[][] DIRECTIONS = {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-	final int DEFAULT_COLUMN_AMOUNT = 7;
-	final int DEFAULT_ROW_AMOUNT = 6;
-	final int DEFAULT_ALIGNED_TOKEN = 4;
+	static int DEFAULT_COLUMN_AMOUNT = 7;
+	static int DEFAULT_ROW_AMOUNT = 6;
+	static int DEFAULT_ALIGNED_TOKEN = 4;
 	final Scanner reader;
 	private Grid grid;
 	private Player[] players;
@@ -16,7 +16,7 @@ public class GameManager {
 	
 	public GameManager() {
 		this.reader = new Scanner(System.in);
-		this.setGrid(new Grid(this.DEFAULT_COLUMN_AMOUNT, this.DEFAULT_ROW_AMOUNT));
+		this.setGrid(new Grid(GameManager.DEFAULT_COLUMN_AMOUNT, GameManager.DEFAULT_ROW_AMOUNT));
 		this.players = new Player[2];
 	}
 	
@@ -49,9 +49,9 @@ public class GameManager {
 	}
 	
 	public void createPlayer(String username, char symbol) {
-		if(!(this.getPlayerByIndex(0) instanceof Player)) {
+		if(this.getPlayerByIndex(0) == null) {
 			this.players[0] = new Player(username, symbol);
-		} else if(!(this.getPlayerByIndex(1) instanceof Player)) {
+		} else if(this.getPlayerByIndex(1) == null) {
 			this.players[1] = new Player(username, symbol);
 		} else {
 			System.out.println("Two players already exists");
@@ -86,7 +86,7 @@ public class GameManager {
 		while (columnChoosed < 0) {
     	   try {
     		   columnChoosed=this.reader.nextInt();
-    		   if (columnChoosed > this.DEFAULT_ROW_AMOUNT + 1 || columnChoosed < 1) {
+    		   if (columnChoosed > GameManager.DEFAULT_ROW_AMOUNT + 1 || columnChoosed < 1) {
     			   System.out.println("This column number doesn't exist. Try again:");
     			   columnChoosed = -1;
     		   }
@@ -138,7 +138,7 @@ public class GameManager {
 					}
 				}
 				
-				if(alignedTokenCounter == this.DEFAULT_ALIGNED_TOKEN) {
+				if(alignedTokenCounter == GameManager.DEFAULT_ALIGNED_TOKEN) {
 					return true;
 				}
 			}
@@ -147,7 +147,7 @@ public class GameManager {
 	}
 	
 	public boolean isOutOfBound(int x, int y, int vx, int vy) {
-		if(x + vx < 0 || x + vx > this.DEFAULT_COLUMN_AMOUNT - 1 || y + vy < 0 || y + vy > this.DEFAULT_ROW_AMOUNT - 1) {
+		if(x + vx < 0 || x + vx > GameManager.DEFAULT_COLUMN_AMOUNT - 1 || y + vy < 0 || y + vy > GameManager.DEFAULT_ROW_AMOUNT - 1) {
 			return true;
 		} else {
 			return false;
@@ -155,15 +155,15 @@ public class GameManager {
 	}
 	
 	public void displayGrid() {
-		char[][] table = new char[this.DEFAULT_ROW_AMOUNT * 2 + 1][this.DEFAULT_COLUMN_AMOUNT * 2 + 2];
+		char[][] table = new char[GameManager.DEFAULT_ROW_AMOUNT * 2 + 1][GameManager.DEFAULT_COLUMN_AMOUNT * 2 + 2];
 		
-		for(int indexColumn = 0; indexColumn < this.DEFAULT_COLUMN_AMOUNT * 2 + 1; indexColumn++) {
+		for(int indexColumn = 0; indexColumn < GameManager.DEFAULT_COLUMN_AMOUNT * 2 + 1; indexColumn++) {
 			if(indexColumn % 2 == 0) {
-				for(int indexRow = this.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
+				for(int indexRow = GameManager.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
 					table[indexRow][indexColumn] = '|';
 				}
 			} else {
-				for(int indexRow = this.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
+				for(int indexRow = GameManager.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
 					if(indexRow % 2 == 0) {
 						table[indexRow][indexColumn] = '—';
 					} else {
@@ -171,7 +171,7 @@ public class GameManager {
 					}
 				}
 			}
-			for(int index = 1; index < this.DEFAULT_COLUMN_AMOUNT + 1; index++) {
+			for(int index = 1; index < GameManager.DEFAULT_COLUMN_AMOUNT + 1; index++) {
 				table[0][index * 2 - 1] = Integer.toString(index).charAt(0);
 			}
 		}
