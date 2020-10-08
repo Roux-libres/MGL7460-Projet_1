@@ -4,7 +4,7 @@ package connectfour;
 /**
  * The Class App.
  */
-public class App {
+public abstract class App {
 
     /**
      * The main method.

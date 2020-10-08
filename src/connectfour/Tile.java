@@ -10,7 +10,9 @@ public class Tile {
     /**
      * Instantiates a new tile.
      */
-    public Tile() {}
+    public Tile() {
+        // This constructor is intentionally empty. Nothing special is needed here.
+    }
 
     /**
      * Gets the token.
@@ -36,10 +38,6 @@ public class Tile {
      * @return true, if is empty
      */
     public boolean isEmpty() {
-        if (this.getToken() != null) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.getToken() == null;
     }
 }

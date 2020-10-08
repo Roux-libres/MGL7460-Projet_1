@@ -71,11 +71,7 @@ public class Column {
      * @return true, if is full
      */
     public boolean isFull() {
-        if (this.getIndexEmptyTile() == this.tiles.length) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.getIndexEmptyTile() == this.tiles.length;
     }
 
     /**
