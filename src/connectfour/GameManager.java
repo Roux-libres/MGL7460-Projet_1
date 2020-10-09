@@ -2,19 +2,25 @@ package connectfour;
 
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import java.util.regex.Pattern;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class GameManager.
  */
 public class GameManager {
-    static int[][] DIRECTIONS =
-        {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-    static int DEFAULT_COLUMN_AMOUNT = 7;
-    static int DEFAULT_ROW_AMOUNT = 6;
-    static int DEFAULT_ALIGNED_TOKEN = 4;
-    final Scanner reader;
+    private static final int[][] DIRECTIONS =
+            {{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
+    private static final int DEFAULT_COLUMN_AMOUNT = 7;
+    private static final int DEFAULT_ROW_AMOUNT = 6;
+    private static final int DEFAULT_ALIGNED_TOKEN = 4;
+    private final Scanner reader;
+    private final Logger logger = Logger.getLogger("connectfour.logger");
     private Grid grid;
     private final Player[] players;
     private int turnCount;
@@ -27,6 +33,21 @@ public class GameManager {
         this.reader = new Scanner(System.in, "UTF-8");
         this.setGrid(new Grid(GameManager.DEFAULT_COLUMN_AMOUNT, GameManager.DEFAULT_ROW_AMOUNT));
         this.players = new Player[2];
+
+        final Handler handler = new ConsoleHandler();
+        handler.setLevel(Level.FINE);
+        handler.setFormatter(new SimpleFormatter() {
+
+            @Override
+            public synchronized String format(LogRecord lr) {
+                return lr.getMessage() + "\r\n";
+            }
+        });
+
+        this.logger.addHandler(handler);
+        this.logger.setLevel(Level.FINE);
+        this.logger.fine("\u001B[37m");
+
     }
 
     /**
@@ -49,13 +70,17 @@ public class GameManager {
      * Sets the players.
      */
     public void setPlayers() {
-        for (int index = 0; index < 2; index++) {
-            System.out.println("Choose a name for player " + Integer.toString(index + 1) + " :");
+        String msg = "";
+        for (int index = 1; index < 3; index++) {
+            msg = String.format("Choose a name for player %d :", index);
+            this.logger.fine(msg);
             final String playerName = this.manageTextEntry();
-            System.out.println("Choose a symbol for player " + Integer.toString(index + 1) + " :");
+            msg = String.format("Choose a symbol for player %d : ", index);
+            this.logger.fine(msg);
             final char playerSymbol = this.manageTextEntry().charAt(0);
-            System.out.println("The player -" + playerName + "- has the symbol \"" + playerSymbol
-                            + "\" \n");
+            msg = String.format("The player -%s- has the symbol \"%s\" %n", playerName,
+                    playerSymbol);
+            this.logger.fine(msg);
             this.createPlayer(playerName, playerSymbol);
         }
     }
@@ -63,7 +88,7 @@ public class GameManager {
     private String manageTextEntry() {
         String text = this.reader.nextLine();
         while (!Pattern.matches("[a-zA-Z0-9]*", text) || text.length() == 0) {
-            System.out.println("Missing or incorrect text. Try Again.");
+            this.logger.fine("Missing or incorrect text. Try Again.");
             text = this.reader.nextLine();
         }
         return text;
@@ -81,7 +106,7 @@ public class GameManager {
         } else if (this.getPlayerByIndex(1) == null) {
             this.players[1] = new Player(username, symbol);
         } else {
-            System.out.println("Two players already exists");
+            this.logger.fine("Two players already exists");
         }
     }
 
@@ -93,11 +118,11 @@ public class GameManager {
         this.displayGrid();
         while (!this.hasWon(actualPlayer) && !this.getGrid().isFull()) {
             actualPlayer = this.getPlayerByIndex(this.getTurnCount() % 2);
-            System.out.println("It's the turn of " + actualPlayer.getName()
-                            + "\nChoose a column number : ");
+            this.logger.fine(
+                    "It's the turn of " + actualPlayer.getName() + "\nChoose a column number : ");
             this.setLastColumnChoosed(this.manageColumnChoosed() - 1);
             while (this.getGrid().getColumn(this.getLastColumnChoosed()).isFull()) {
-                System.out.println("This column is full. Please choose another.");
+                this.logger.fine("This column is full. Please choose another.");
                 this.setLastColumnChoosed(this.manageColumnChoosed() - 1);
             }
             this.getGrid().addToken(this.getLastColumnChoosed(), actualPlayer);
@@ -105,7 +130,7 @@ public class GameManager {
             this.incrementTurnCount();
         }
         if (this.getGrid().isFull()) {
-            System.out.println("Grid is full");
+            this.logger.fine("Grid is full");
         } else {
             this.displayVictory();
         }
@@ -117,11 +142,11 @@ public class GameManager {
             try {
                 columnChoosed = this.reader.nextInt();
                 if (columnChoosed > GameManager.DEFAULT_ROW_AMOUNT + 1 || columnChoosed < 1) {
-                    System.out.println("This column number doesn't exist. Try again:");
+                    this.logger.fine("This column number doesn't exist. Try again:");
                     columnChoosed = -1;
                 }
             } catch (final java.util.InputMismatchException e) {
-                System.out.println("Please enter a correct column number.");
+                this.logger.fine("Please enter a correct column number.");
             }
 
             this.reader.nextLine();
@@ -189,19 +214,19 @@ public class GameManager {
      * @return true, if successful
      */
     public boolean hasWon(Player player) {
-        final int row = (this.getGrid().getColumn(this.getLastColumnChoosed())
-                        .getIndexEmptyTile() == 0) ? 0
-                                        : this.getGrid().getColumn(this.getLastColumnChoosed())
-                                                        .getIndexEmptyTile() - 1;
+        final int row =
+                (this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile() == 0) ? 0
+                        : this.getGrid().getColumn(this.getLastColumnChoosed()).getIndexEmptyTile()
+                                - 1;
 
         int alignedTokenCounter = 1;
         for (final int[] direction : GameManager.DIRECTIONS) {
             if (!this.isOutOfBound(this.getLastColumnChoosed(), row, direction[0] * 3,
-                            direction[1] * 3)) {
+                    direction[1] * 3)) {
                 for (int index = 1; index < 4; index++) {
                     if (this.getGrid().getPlayerFromTile(
-                                    this.getLastColumnChoosed() + direction[0] * index,
-                                    row + direction[1] * index) == player) {
+                            this.getLastColumnChoosed() + direction[0] * index,
+                            row + direction[1] * index) == player) {
                         alignedTokenCounter++;
                     } else {
                         alignedTokenCounter = 1;
@@ -228,7 +253,7 @@ public class GameManager {
      */
     public boolean isOutOfBound(int x, int y, int vx, int vy) {
         return x + vx < 0 || x + vx > GameManager.DEFAULT_COLUMN_AMOUNT - 1 || y + vy < 0
-                        || y + vy > GameManager.DEFAULT_ROW_AMOUNT - 1;
+                || y + vy > GameManager.DEFAULT_ROW_AMOUNT - 1;
     }
 
     /**
@@ -236,27 +261,28 @@ public class GameManager {
      */
     public void displayGrid() {
         final char[][] table = new char[GameManager.DEFAULT_ROW_AMOUNT * 2
-                        + 1][GameManager.DEFAULT_COLUMN_AMOUNT * 2 + 2];
+                + 1][GameManager.DEFAULT_COLUMN_AMOUNT * 2 + 2];
 
         for (int indexColumn = 0; indexColumn < GameManager.DEFAULT_COLUMN_AMOUNT * 2
-                        + 1; indexColumn++) {
+                + 1; indexColumn++) {
             if (indexColumn % 2 == 0) {
                 for (int indexRow = GameManager.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
                     table[indexRow][indexColumn] = '|';
                 }
             } else {
-                for (int indexRow = GameManager.DEFAULT_ROW_AMOUNT * 2; indexRow > 0; indexRow--) {
-                    if (indexRow % 2 == 0) {
-                        table[indexRow][indexColumn] = '—';
-                    } else {
-                        table[indexRow][indexColumn] = this.getGrid().getColumn(indexColumn / 2)
-                                        .toString().charAt(indexRow / 2);
-                    }
+                final StringBuilder builder = new StringBuilder();
+                builder.append(Integer.toString(indexColumn / 2 + 1));
+                builder.append(String.join("—",
+                        this.getGrid().getColumn(indexColumn / 2).toString().split("")));
+                builder.append('—');
+
+                final String column = builder.toString();
+
+                for (int indexRow = 0; indexRow <= GameManager.DEFAULT_ROW_AMOUNT * 2; indexRow++) {
+                    table[indexRow][indexColumn] = column.charAt(indexRow);
                 }
             }
-            for (int index = 1; index < GameManager.DEFAULT_COLUMN_AMOUNT + 1; index++) {
-                table[0][index * 2 - 1] = Integer.toString(index).charAt(0);
-            }
+
         }
 
         for (int index = 0; index < table.length / 2; index++) {
@@ -265,8 +291,10 @@ public class GameManager {
             table[table.length - index - 1] = temp;
         }
 
+        String msg = "";
         for (final char[] line : table) {
-            System.out.println(new String(line));
+            msg = new String(line);
+            this.logger.fine(msg);
         }
     }
 
@@ -274,9 +302,11 @@ public class GameManager {
      * Display victory.
      */
     public void displayVictory() {
-        System.out.println("\nAND THE WINNER IS "
-                        + this.getPlayerByIndex((this.getTurnCount() - 1) % 2).getName()
-                                        .toUpperCase(Locale.getDefault()));
-        System.out.println("Number of turns : " + Integer.toString(this.getTurnCount()));
+        String msg = String.format("%nAND THE WINNER IS %s",
+                this.getPlayerByIndex((this.getTurnCount() - 1) % 2).getName()
+                        .toUpperCase(Locale.getDefault()));
+        this.logger.fine(msg);
+        msg = String.format("Number of turns : %d", this.getTurnCount());
+        this.logger.fine(msg);
     }
 }
