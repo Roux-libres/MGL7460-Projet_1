@@ -22,6 +22,16 @@
 	<path id="MGL7460-Projet_1.classpath">
         <pathelement location="bin"/>
     </path>
+
+	<pathconvert property="manifest.classpath" pathsep=" ">
+		<path refid="MGL7460-Projet_1.classpath"/>
+  		<mapper>
+			<chainedmapper>
+   				<flattenmapper/>
+   				<globmapper from="*.jar" to="lib/*.jar"/>
+			</chainedmapper>
+		</mapper>
+	</pathconvert>
 		
 	<path id="test.classpath">
 		<pathelement location="${ant.library.dir}\ant-junitlauncher.jar"/>
@@ -108,10 +118,10 @@
 	</target>
 		
 	<target name="jar" depends="compile">
-		<jar destfile="./bin/ConnectFour.jar" filesetmanifest="mergewithoutmain">
+		<jar destfile="./build/ConnectFour.jar" filesetmanifest="mergewithoutmain">
 		 	<manifest>
 		 		<attribute name="Main-Class" value="connectfour.App"/>
-		 		<attribute name="Class-Path" value="."/>
+		 		<attribute name="Class-Path" value="${manifest.classpath}"/>
 		  	</manifest>
 		  	<fileset dir="./bin"/>
   		</jar>
@@ -221,7 +231,7 @@
 		<jar destfile="./bin/ConnectFour.jar" filesetmanifest="mergewithoutmain">
 		 	<manifest>
 		 		<attribute name="Main-Class" value="connectfour.App"/>
-		 		<attribute name="Class-Path" value="."/>
+		 		<attribute name="Class-Path" value="${manifest.classpath}"/>
 		  	</manifest>
 		  	<fileset dir="./bin"/>
   		</jar>
